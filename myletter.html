@@ -1,0 +1,261 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>Gem's Love Letter</title>  
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&family=Playfair+Display&display=swap" rel="stylesheet">  
+  
+<style>  
+* {  
+    margin: 0;  
+    padding: 0;  
+    box-sizing: border-box;  
+}  
+  
+body {  
+    height: 100vh;  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    flex-direction: column;  
+    font-family: 'Poppins', sans-serif;  
+    background: linear-gradient(135deg, #ffd6e8, #f8b6d2);  
+    overflow: hidden;  
+}  
+  
+h1 {  
+    font-size: 18px;  
+    font-weight: 400;  
+    color: #6a2c4f;  
+    margin-bottom: 60px;  
+    text-align: center;  
+}  
+  
+/* Envelope */  
+.envelope-wrapper {  
+    position: relative;  
+    cursor: pointer;  
+    perspective: 1000px;  
+}  
+  
+.envelope {  
+    width: 250px;  
+    height: 160px;  
+    position: relative;  
+}  
+  
+.body {  
+    width: 100%;  
+    height: 100%;  
+    background: #ffc1dc;  
+    border: 2px solid #e88bb3;  
+    border-radius: 8px;  
+    position: absolute;  
+    z-index: 1;  
+}  
+  
+.flap {  
+    width: 100%;  
+    height: 100%;  
+    background: #ffaad4;  
+    position: absolute;  
+    clip-path: polygon(0 0, 50% 50%, 100% 0);  
+    transform-origin: top;  
+    transition: transform 0.8s ease;  
+    z-index: 2;  
+}  
+  
+.heart {  
+    position: absolute;  
+    top: 60px;  
+    left: 50%;  
+    transform: translateX(-50%);  
+    font-size: 30px;  
+    color: #d63384;  
+    z-index: 3;  
+}  
+  
+.envelope.open .flap {  
+    transform: rotateX(-180deg);  
+}  
+  
+/* FULLSCREEN LETTER */  
+.letter-fullscreen {  
+    position: fixed;  
+    bottom: -100%;  
+    left: 0;  
+    width: 100%;  
+    height: 100%;  
+    background: rgba(0,0,0,0.4);  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    transition: bottom 0.6s ease;  
+    z-index: 999;  
+}  
+  
+.letter-fullscreen.active {  
+    bottom: 0;  
+}  
+  
+.letter-content {  
+    width: 95%;  
+    max-width: 600px;  
+    height: 85%;  
+    background: repeating-linear-gradient(  
+        white,  
+        white 28px,  
+        #f3f3f3 29px  
+    );  
+    border-radius: 15px;  
+    padding: 40px 30px;  
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);  
+    overflow-y: auto;  
+    animation: slideUp 0.6s ease;  
+}  
+  
+@keyframes slideUp {  
+    from { transform: translateY(100px); opacity: 0; }  
+    to { transform: translateY(0); opacity: 1; }  
+}  
+  
+@keyframes slideDown {  
+    from { transform: translateY(0); opacity: 1; }  
+    to { transform: translateY(100px); opacity: 0; }  
+}  
+  
+.letter-fullscreen.closing .letter-content {  
+    animation: slideDown 0.5s ease forwards;  
+}  
+  
+.letter-content h2 {  
+    font-family: 'Playfair Display', serif;  
+    margin-bottom: 20px;  
+    color: #6a2c4f;  
+}  
+  
+.letter-content p {  
+    line-height: 1.8;  
+    color: #444;  
+    font-size: 15px;  
+}  
+
+/* Floating hearts */
+.floating-hearts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.floating-hearts span {
+    position: absolute;
+    font-size: 20px;
+    color: #ff5ca2;
+    opacity: 0.7;
+    animation: floatAway linear infinite;
+}
+
+@keyframes floatAway {
+    0% {
+        transform: translate(var(--x-start), var(--y-start)) scale(var(--scale));
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    100% {
+        transform: translate(var(--x-end), var(--y-end)) scale(var(--scale));
+        opacity: 0;
+    }
+}
+
+/* Tap to open text */
+.tap-text {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #6a2c4f;
+    text-align: center;
+    font-weight: 500;
+    cursor: default;
+}
+</style>  
+</head>  
+  
+<body>  
+  
+<h2>For my BABYYY 💕</h2>  
+
+<!-- Floating hearts -->
+<div class="floating-hearts">
+    <span>❤</span><span>💖</span><span>💗</span><span>💕</span><span>💞</span>
+</div>
+<p class="tap-text">Tap to open 💌</p>
+
+<div class="envelope-wrapper" onclick="openLetter()">  
+    <div class="envelope" id="envelope">  
+        <div class="flap"></div>  
+        <div class="body"></div>  
+        <div class="heart">❤</div>  
+    </div>  
+</div>  
+  
+<!-- FULLSCREEN LETTER -->  
+<div class="letter-fullscreen" id="letterBox" onclick="closeLetter()">  
+    <div class="letter-content">  
+        <h2>My Letter 💌</h2>  
+        <p>  
+           <h1> Hello baby, happy Valentine’s Day. Wag ka na malungkot kung di tayo makakapagkita ngayon. Alam ko malayo tayo sa isa’t isa pero hindi malayo yung puso ko sayo. Sana sa sulat na to kahit papano maramdaman mo gaano ka ka-special sakin. Malapit na monthsary natin 4 days na lang. Excited na ako kahit simpleng call lang o chat. Basta ikaw, sapat na. Sorry kung hindi ako perfect mag-express. Minsan tahimik lang ako, minsan busy, minsan sablay sa lambing. Pero hindi ibig sabihin nun kulang yung pagmamahal ko. Ikaw pa rin una kong naiisip pag gising, at huli kong naiisip bago matulog. Totoo yan baby no joke po Yern naman🤣🤣<h1>
+
+            Miss na miss ko na baby ko, alam mo ba yun??? Ikaw yung pahinga ko kahit malayo ka. Lipad na kasi papunta sa batangas baby hahahahhaha. Btw, Salamat kasi andyan ka. Salamat sa pasensya mo. Salamat sa pagtitis sa kaartehan ko Konting tiis na lang. Darating din yung araw na hindi na sulat at chat kundi yakap na.<h1>
+              
+            Happy Valentine’s Day ulit, baby. Nandito lang ako palagi para sayo. Iloveyouuuu🥰🥰🥰<h1>
+
+            <h2>—Your baby Gemmm♡<h2>
+        </p>  
+    </div>  
+</div>  
+  
+<script>  
+function openLetter() {  
+    document.getElementById("envelope").classList.add("open");  
+    document.getElementById("letterBox").classList.add("active");  
+}  
+  
+function closeLetter() {  
+    const letterBox = document.getElementById("letterBox");  
+    const envelope = document.getElementById("envelope");  
+  
+    letterBox.classList.add("closing");  
+  
+    setTimeout(() => {  
+        letterBox.classList.remove("active");  
+        letterBox.classList.remove("closing");  
+        envelope.classList.remove("open");  
+    }, 500);  
+}  
+
+// Random floating hearts
+const hearts = document.querySelectorAll('.floating-hearts span');
+
+hearts.forEach(heart => {
+    const xStart = Math.random() * window.innerWidth + 'px';
+    const yStart = Math.random() * window.innerHeight + 'px';
+    const xEnd = (Math.random() * window.innerWidth - window.innerWidth/2) + 'px';
+    const yEnd = (-100 - Math.random() * 100) + 'px';
+    const scale = (Math.random() * 0.5 + 0.8).toFixed(2);
+    const duration = (Math.random() * 4 + 4).toFixed(2) + 's';
+    
+    heart.style.setProperty('--x-start', xStart);
+    heart.style.setProperty('--y-start', yStart);
+    heart.style.setProperty('--x-end', xEnd);
+    heart.style.setProperty('--y-end', yEnd);
+    heart.style.setProperty('--scale', scale);
+    heart.style.animationDuration = duration;
+});
+</script>
+  
+</body>  
+</html>
